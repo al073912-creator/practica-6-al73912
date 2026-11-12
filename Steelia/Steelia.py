@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Estilos CSS avanzados: Fondo rosa pastel + Cajas de entrada blancas + Texto vino oscuro
+# Estilos CSS avanzados: Fondo rosa pastel + Tarjetas limpias + Texto vino oscuro
 custom_css = """
 <style>
     /* Fondo general rosado suave */
@@ -74,14 +74,22 @@ custom_css = """
         font-weight: 800 !important;
     }
 
-    /* TARJETAS BLANCAS */
+    /* TARJETAS BLANCAS INTEGRALES (SIN CONTENEDORES VACÍOS) */
     .stCard {
         background-color: #FFFFFF !important;
-        border-radius: 24px !important;
+        border-radius: 22px !important;
         padding: 26px !important;
-        box-shadow: 0 10px 25px rgba(216, 27, 96, 0.12) !important;
+        box-shadow: 0 8px 22px rgba(216, 27, 96, 0.12) !important;
         border: 2px solid #F4A5C2 !important;
         margin-bottom: 22px !important;
+    }
+
+    .stCard h3 {
+        margin-top: 0 !important;
+        color: #800A38 !important;
+        border-bottom: 2px solid #FCE2EB;
+        padding-bottom: 8px;
+        margin-bottom: 14px;
     }
 
     /* ALERTAS NATIVAS */
@@ -138,13 +146,13 @@ custom_css = """
     .formula-box {
         background-color: #FFF0F5 !important;
         border-left: 6px solid #C2185B !important;
-        padding: 16px !important;
-        border-radius: 14px !important;
+        padding: 14px 18px !important;
+        border-radius: 12px !important;
         font-family: 'Courier New', monospace !important;
         color: #260511 !important;
         font-weight: bold !important;
         font-size: 1.15rem !important;
-        margin: 14px 0 !important;
+        margin: 12px 0 !important;
     }
 
     /* TABLAS */
@@ -202,8 +210,14 @@ ISO_DATA = {
 # ---------------------------------------------------------
 # 3. NAVEGACIÓN Y SIDEBAR
 # ---------------------------------------------------------
-st.sidebar.markdown("<h1 style='text-align: center; color: #800A38;'>🌸 STEELIA</h1>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='text-align: center; color: #260511; font-size: 0.95em;'><b>Análisis & Corrosión del Acero</b><br>Ingeniería Civil México</p>", unsafe_allow_html=True)
+st.sidebar.markdown(
+    "<h1 style='text-align: center; color: #800A38;'>🌸 STEELIA</h1>",
+    unsafe_allow_html=True,
+)
+st.sidebar.markdown(
+    "<p style='text-align: center; color: #260511; font-size: 0.95em;'><b>Análisis & Corrosión del Acero</b><br>Ingeniería Civil México</p>",
+    unsafe_allow_html=True,
+)
 st.sidebar.markdown("---")
 
 opciones_menu = [
@@ -225,7 +239,8 @@ menu = st.sidebar.radio("Navega por las secciones:", opciones_menu)
 # SECCIÓN 1: PORTADA
 # ---------------------------------------------------------
 if menu == "Portada":
-    st.markdown("""
+    st.markdown(
+        """
     <div class="pink-header-card">
         <h1 style="margin:0; font-size: 3rem;">💖 STEELIA</h1>
         <h3 style="margin-top: 8px; font-weight: 800;">
@@ -237,32 +252,48 @@ if menu == "Portada":
             adaptada a la ingeniería civil en México.
         </p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
     col1, col2 = st.columns([3, 2])
     with col1:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.subheader("✨ Propósito Institucional")
-        st.write(
-            "STEELIA es una herramienta técnico-educativa desarrollada con Python "
-            "y Streamlit que integra los modelos cinéticos lineales y de potencia "
-            "(ISO 9224) con las categorías de exposición de las **Normas Técnicas "
-            "Complementarias de México (NTC-Concreto Capítulo 4)**.\n\n"
-            "Permite evaluar la pérdida anual de espesor, estimar la vida útil residual "
-            "de elementos de acero estructural expuestos a la atmósfera y prevenir fallas "
-            "catastróficas en la infraestructura nacional."
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>✨ Propósito Institucional</h3>
+            <p>
+                <b>STEELIA</b> es una herramienta técnico-educativa desarrollada en Python
+                que integra los modelos cinéticos lineales y de potencia (ISO 9224) con las categorías
+                de exposición de las <b>Normas Técnicas Complementarias de México (NTC-Concreto Capítulo 4)</b>.
+            </p>
+            <p>
+                Permite evaluar la pérdida anual de espesor, estimar la vida útil residual
+                de elementos de acero estructural expuestos a la atmósfera y prevenir fallas
+                catastróficas en la infraestructura nacional.
+            </p>
+        </div>
+        """,
+            unsafe_allow_html=True,
         )
-        st.markdown("</div>", unsafe_allow_html=True)
 
     with col2:
-        st.markdown('<div class="stCard" style="text-align: center;">', unsafe_allow_html=True)
-        st.markdown("### 🧮 Calculadora Interactiva")
-        st.write("Simula en tiempo real el desgaste estructural del acero:")
-        st.info("💡 Selecciona **Calculadora de Corrosión** en el panel lateral izquierdo para iniciar.")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard" style="text-align: center;">
+            <h3>🧮 Calculadora Interactiva</h3>
+            <p>
+                Simula en tiempo real el desgaste estructural del acero, compara modelos matemáticos
+                y evalúa la vida útil remanente según distintos microclimas de México.
+            </p>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+        st.info("💡 Selecciona **Calculadora de Corrosión** en el menú lateral izquierdo para iniciar.")
 
 # ---------------------------------------------------------
-# SECCIÓN 2: ¿QUÉ ES LA CORROSIÓN DEL ACERO? (AMPLIADA)
+# SECCIÓN 2: ¿QUÉ ES LA CORROSIÓN DEL ACERO?
 # ---------------------------------------------------------
 elif menu == "¿Qué es la Corrosión?":
     st.title("🧪 Fundamentos Electroquímicos de la Corrosión")
@@ -273,50 +304,70 @@ elif menu == "¿Qué es la Corrosión?":
         "al acero manufacturado a su estado mineral termodinámicamente estable (óxidos e hidróxidos de hierro)."
     )
 
-    st.markdown('<div class="stCard">', unsafe_allow_html=True)
-    st.markdown("### ⚙️ Los 4 Componentes Indispensables de la Celda de Corrosión")
-    st.write("""
-    Para que el acero al carbono se corroa en la atmósfera, deben coexistir simultáneamente cuatro elementos:
-    1. **Ánodo:** Zona del acero donde ocurre la disolución metálica (oxidación del hierro).
-    2. **Cátodo:** Zona de la superficie metálica donde se consumen los electrones liberados.
-    3. **Electrólito:** Película microscópica de humedad condensada sobre el acero que contiene iones disueltos (sales, contaminantes) y permite el flujo iónico.
-    4. **Camino Metálico:** El propio cuerpo del acero estructural, que conduce los electrones desde el ánodo hacia el cátodo.
-    """)
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown(
+        """
+    <div class="stCard">
+        <h3>⚙️ Los 4 Componentes Indispensables de la Celda de Corrosión</h3>
+        <p>Para que el acero al carbono se corroa en la atmósfera, deben coexistir simultáneamente cuatro elementos:</p>
+        <ol>
+            <li><b>Ánodo:</b> Zona del acero donde ocurre la disolución metálica (oxidación del hierro).</li>
+            <li><b>Cátodo:</b> Zona de la superficie metálica donde se consumen los electrones liberados.</li>
+            <li><b>Electrólito:</b> Película microscópica de humedad condensada sobre el acero que contiene iones disueltos (sales, contaminantes) y permite el flujo iónico.</li>
+            <li><b>Camino Metálico:</b> El propio cuerpo del acero estructural, que conduce los electrones desde el ánodo hacia el cátodo.</li>
+        </ol>
+    </div>
+    """,
+        unsafe_allow_html=True,
+    )
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 1. Reacción Anódica (Oxidación)")
-        st.write("El átomo de hierro neutro cede dos electrones y pasa a solución acuosa como catión ferroso:")
-        st.markdown('<div class="formula-box">Fe → Fe²⁺ + 2e⁻</div>', unsafe_allow_html=True)
-        st.caption("Es aquí donde ocurre la pérdida real de masa y espesor de la pieza estructural.")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>1. Reacción Anódica (Oxidación)</h3>
+            <p>El átomo de hierro neutro cede dos electrones y pasa a solución acuosa como catión ferroso:</p>
+            <div class="formula-box">Fe → Fe²⁺ + 2e⁻</div>
+            <p style="font-size: 0.9rem;"><i>Es aquí donde ocurre la pérdida real de masa y espesor de la pieza estructural.</i></p>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
     with col2:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 2. Reacción Catódica (Reducción)")
-        st.write("En ambientes atmosféricos neutros o alcalinos, el oxígeno disuelto y el agua capturan los electrones:")
-        st.markdown('<div class="formula-box">O₂ + 2H₂O + 4e⁻ → 4OH⁻</div>', unsafe_allow_html=True)
-        st.caption("Se generan iones hidroxilo (OH⁻) que alcalinizan localmente la zona catódica.")
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>2. Reacción Catódica (Reducción)</h3>
+            <p>En ambientes atmosféricos neutros o alcalinos, el oxígeno disuelto y el agua capturan los electrones:</p>
+            <div class="formula-box">O₂ + 2H₂O + 4e⁻ → 4OH⁻</div>
+            <p style="font-size: 0.9rem;"><i>Se generan iones hidroxilo (OH⁻) que alcalinizan localmente la zona catódica.</i></p>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
-    st.markdown('<div class="stCard">', unsafe_allow_html=True)
-    st.markdown("### 3. Formación de Herrumbre y Expansión Volumétrica")
-    st.write(
-        "Los cationes ferrosos ($Fe^{2+}$) y los aniones hidroxilo ($OH^-$) migran en el electrólito y reaccionan "
-        "para precipitar hidróxido ferroso, el cual al oxidarse nuevamente con el aire forma la herrumbre:"
+    st.markdown(
+        """
+    <div class="stCard">
+        <h3>3. Formación de Herrumbre y Expansión Volumétrica</h3>
+        <p>
+            Los cationes ferrosos (Fe²⁺) y los aniones hidroxilo (OH⁻) migran en el electrólito y reaccionan
+            para precipitar hidróxido ferroso, el cual al oxidarse nuevamente con el aire forma la herrumbre:
+        </p>
+        <div class="formula-box">Fe²⁺ + 2OH⁻ → Fe(OH)₂  |  4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃ → Fe₂O₃·H₂O</div>
+        <p>
+            <b>Impacto estructural:</b> A diferencia del aluminio o el acero inoxidable, cuya capa de óxido es densa y protectora,
+            la herrumbre del acero al carbono (Fe₂O₃·H₂O) es <b>porosa, frágil y no adherente</b>, permitiendo que el oxígeno
+            y la humedad sigan penetrando continuamente hacia el metal sano.
+        </p>
+    </div>
+    """,
+        unsafe_allow_html=True,
     )
-    st.markdown('<div class="formula-box">Fe²⁺ + 2OH⁻ → Fe(OH)₂  |  4Fe(OH)₂ + O₂ + 2H₂O → 4Fe(OH)₃ → Fe₂O₃·H₂O</div>', unsafe_allow_html=True)
-    st.write(
-        "**Impacto estructural:** A diferencia del aluminio o el acero inoxidable, cuya capa de óxido es densa y protectora, "
-        "la herrumbre del acero al carbono ($Fe_2O_3 \cdot H_2O$) es **porosa, frágil y no adherente**, permitiendo que el oxígeno "
-        "y la humedad sigan penetrando continuamente hacia el metal sano."
-    )
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# SECCIÓN 3: FACTORES INFLUYENTES (AMPLIADA)
+# SECCIÓN 3: FACTORES INFLUYENTES
 # ---------------------------------------------------------
 elif menu == "Factores Influyentes":
     st.title("🌡️ Factores Ambientales y Materiales que Modifican la Corrosión")
@@ -327,54 +378,60 @@ elif menu == "Factores Influyentes":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 💧 1. Humedad Relativa y Tiempo de Humedecimiento (TOW)")
-        st.write("""
-        * **Humedad Crítica:** Existe un umbral alrededor del **70% - 80% de Humedad Relativa (HR)** por debajo del cual la corrosión atmosférica es prácticamente nula por falta de electrólito líquido.
-        * **Tiempo de Humedecimiento (*Time of Wetness*):** Representa el número de horas al año en que la superficie del acero permanece cubierta por una película de agua (condensación, rocío, lluvia o niebla). A mayor TOW, mayor deterioro acumulado.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🌊 3. Salinidad y Deposición de Cloruros (Cl⁻)")
-        st.write("""
-        * **Acción Despasivante:** Los iones cloruro provenientes del aerosol marino son pequeños y altamente móviles; penetran y destruyen cualquier película protectora en el acero.
-        * **Efecto Higroscópico:** Las sales depositadas absorben humedad del ambiente incluso cuando la humedad relativa baja al 75%, prolongando artificialmente el tiempo de humedecimiento y aumentando la conductividad eléctrica del agua superficial.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🔩 5. Composición Química y Diseño del Acero")
-        st.write("""
-        * **Elementos Aleantes:** La adición controlada de **Cobre (Cu), Cromo (Cr), Níquel (Ni) y Fósforo (P)** (como en los aceros patinables ASTM A588) promueve la formación de una pátina compacta que frena la difusión de oxígeno.
-        * **Detalles Geométricos:** Las zonas con acumulación de agua estancada, hendiduras estrechas (*crevice corrosion*) o contacto directo entre metales distintos (corrosión galvánica) sufren ataques acelerados.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>💧 1. Humedad Relativa y Tiempo de Humedecimiento (TOW)</h3>
+            <ul>
+                <li><b>Humedad Crítica:</b> Existe un umbral alrededor del <b>70% - 80% de Humedad Relativa (HR)</b> por debajo del cual la corrosión atmosférica es prácticamente nula por falta de electrólito líquido.</li>
+                <li><b>Tiempo de Humedecimiento (<i>Time of Wetness</i>):</b> Representa el número de horas al año en que la superficie del acero permanece cubierta por una película de agua (condensación, rocío, lluvia o niebla). A mayor TOW, mayor deterioro acumulado.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🌊 3. Salinidad y Deposición de Cloruros (Cl⁻)</h3>
+            <ul>
+                <li><b>Acción Despasivante:</b> Los iones cloruro provenientes del aerosol marino son pequeños y altamente móviles; penetran y destruyen cualquier película protectora en el acero.</li>
+                <li><b>Efecto Higroscópico:</b> Las sales depositadas absorben humedad del ambiente incluso cuando la humedad relativa baja al 75%, prolongando artificialmente el tiempo de humedecimiento.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🔩 5. Composición Química y Diseño del Acero</h3>
+            <ul>
+                <li><b>Elementos Aleantes:</b> La adición controlada de <b>Cobre (Cu), Cromo (Cr), Níquel (Ni) y Fósforo (P)</b> (aceros patinables ASTM A588) promueve la formación de una pátina compacta que frena la difusión de oxígeno.</li>
+                <li><b>Detalles Geométricos:</b> Las zonas con agua estancada, hendiduras estrechas (<i>crevice corrosion</i>) o contacto entre metales distintos (corrosión galvánica) sufren ataques acelerados.</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
     with col2:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🌡️ 2. Temperatura Ambiental")
-        st.write("""
-        * **Efecto Cinético (Ley de Arrhenius):** Un aumento en la temperatura acelera la velocidad de las reacciones electroquímicas y la difusión de iones en el electrólito.
-        * **Efecto Dual:** En climas cálido-húmedos (como el sureste mexicano), la alta temperatura combinada con alta humedad maximiza la corrosión. En cambio, en climas cálido-secos, el calor evapora rápidamente el rocío y detiene el proceso.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🏭 4. Contaminación Atmosférica (SO₂ y NOₓ)")
-        st.write("""
-        * **Acidificación del Electrólito:** En zonas urbanas e industriales, el dióxido de azufre ($SO_2$) emitido por combustibles fósiles se disuelve en la película de humedad formando **ácido sulfúrico ($H_2SO_4$)**.
-        * **Ciclo Regenerativo:** Los sulfatos atacan el hierro y regeneran ácido continuamente, elevando la velocidad de corrosión hasta 5 o 10 veces respecto a una atmósfera rural limpia.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🛡️ 6. Recubrimientos y Barreras Protectoras")
-        st.write("""
-        * **Aislamiento Físico:** Los sistemas de pintura epóxica y poliuretano bloquean el paso de agua y oxígeno hacia el sustrato metálico.
-        * **Protección Galvánica:** El galvanizado (recubrimiento de zinc) protege al acero incluso si sufre rayaduras, ya que el zinc se oxida preferentemente (ánodo de sacrificio).
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>🌡️ 2. Temperatura Ambiental</h3>
+            <ul>
+                <li><b>Efecto Cinético (Ley de Arrhenius):</b> Un aumento en la temperatura acelera la velocidad de las reacciones electroquímicas y la difusión de iones en el electrólito.</li>
+                <li><b>Efecto Dual:</b> En climas cálido-húmedos (como el sureste mexicano), la alta temperatura combinada con alta humedad maximiza la corrosión. En climas cálido-secos, el calor evapora rápidamente el rocío y detiene el proceso.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🏭 4. Contaminación Atmosférica (SO₂ y NOₓ)</h3>
+            <ul>
+                <li><b>Acidificación del Electrólito:</b> En zonas urbanas e industriales, el dióxido de azufre (SO₂) emitido por combustibles fósiles se disuelve en la película de humedad formando <b>ácido sulfúrico (H₂SO₄)</b>.</li>
+                <li><b>Ciclo Regenerativo:</b> Los sulfatos atacan el hierro y regeneran ácido continuamente, elevando la velocidad de corrosión hasta 5 o 10 veces respecto a una atmósfera rural limpia.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🛡️ 6. Recubrimientos y Barreras Protectoras</h3>
+            <ul>
+                <li><b>Aislamiento Físico:</b> Los sistemas de pintura epóxica y poliuretano bloquean el paso de agua y oxígeno hacia el sustrato metálico.</li>
+                <li><b>Protección Galvánica:</b> El galvanizado (recubrimiento de zinc) protege al acero incluso si sufre rayaduras, ya que el zinc se oxida preferentemente (ánodo de sacrificio).</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
 # ---------------------------------------------------------
 # SECCIÓN 4: NORMATIVA MEXICANA (NTC)
@@ -402,54 +459,64 @@ elif menu == "Contexto de México":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### ☀️ 1. Sureste y Península de Yucatán (Campeche, Tabasco, Quintana Roo, Yucatán)")
-        st.write("""
-        * **Severidad Ambiental:** Extremadamente alta (Categorías C4 a C5 / Exposiciones NTC C y D).
-        * **Mecanismo Dominante:** Alta humedad relativa ($>80\%$ constante), altas temperaturas medias y vientos alisios que arrastran sales de cloruro ($Cl^-$) desde el Golfo de México y Mar Caribe.
-        * **Tiempo de Humedecimiento (*TOW*):** Muy prolongado debido al clima cálido-húmedo tropical.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🏭 3. Zonas Urbanas e Industriales del Interior (CDMX, Monterrey, Guadalajara)")
-        st.write("""
-        * **Severidad Ambiental:** Moderada a Alta (Categorías C2 a C4 / Exposiciones NTC B1 a B2).
-        * **Mecanismo Dominante:** Corrosión impulsada por acidificación del aire por emisión de dióxido de azufre ($SO_2$) y óxidos de nitrógeno ($NO_x$).
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>☀️ 1. Sureste y Península de Yucatán (Campeche, Tabasco, Quintana Roo, Yucatán)</h3>
+            <ul>
+                <li><b>Severidad Ambiental:</b> Extremadamente alta (Categorías C4 a C5 / Exposiciones NTC C y D).</li>
+                <li><b>Mecanismo Dominante:</b> Alta humedad relativa (&gt;80% constante), altas temperaturas medias y vientos alisios que arrastran sales de cloruro (Cl⁻) desde el Golfo de México y Mar Caribe.</li>
+                <li><b>Tiempo de Humedecimiento (<i>TOW</i>):</b> Muy prolongado debido al clima cálido-húmedo tropical.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🏭 3. Zonas Urbanas e Industriales del Interior (CDMX, Monterrey, Guadalajara)</h3>
+            <ul>
+                <li><b>Severidad Ambiental:</b> Moderada a Alta (Categorías C2 a C4 / Exposiciones NTC B1 a B2).</li>
+                <li><b>Mecanismo Dominante:</b> Corrosión impulsada por acidificación del aire por emisión de dióxido de azufre (SO₂) y óxidos de nitrógeno (NOₓ).</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
     with col2:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🌊 2. Litorales del Golfo de México y Pacífico (Veracruz, Tamaulipas, Sinaloa, Guerrero)")
-        st.write("""
-        * **Severidad Ambiental:** Alta a Extrema (Categorías C4 a CX / Exposición NTC C).
-        * **Mecanismo Dominante:** Fuerte brisa marina y eventos meteorológicos como los "Nortes" que transportan partículas de sal tierra adentro.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🇲🇽 4. Fuentes Oficiales de Información Climático-Técnica en México")
-        st.write("""
-        * **CONAGUA y Servicio Meteorológico Nacional (SMN):** Promedios anuales de Humedad Relativa, Temperatura y Precipitación.
-        * **Instituto Mexicano del Transporte (IMT):** Mapas de corrosividad en la red carretera nacional y puentes.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>🌊 2. Litorales del Golfo de México y Pacífico (Veracruz, Tamaulipas, Sinaloa, Guerrero)</h3>
+            <ul>
+                <li><b>Severidad Ambiental:</b> Alta a Extrema (Categorías C4 a CX / Exposición NTC C).</li>
+                <li><b>Mecanismo Dominante:</b> Fuerte brisa marina y eventos meteorológicos como los "Nortes" que transportan partículas de sal tierra adentro.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🇲🇽 4. Fuentes Oficiales de Información Climático-Técnica en México</h3>
+            <ul>
+                <li><b>CONAGUA y Servicio Meteorológico Nacional (SMN):</b> Promedios anuales de Humedad Relativa, Temperatura y Precipitación.</li>
+                <li><b>Instituto Mexicano del Transporte (IMT):</b> Mapas de corrosividad en la red carretera nacional y puentes.</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
 # ---------------------------------------------------------
-# SECCIÓN 6: CALCULADORA INTERACTIVA DE CORROSIÓN (REDISEÑADA Y DINÁMICA)
+# SECCIÓN 6: CALCULADORA INTERACTIVA DE CORROSIÓN
 # ---------------------------------------------------------
 elif menu == "Calculadora de Corrosión":
-    st.markdown("""
+    st.markdown(
+        """
     <div class="pink-header-card" style="padding: 22px; margin-bottom: 18px;">
         <h2 style="margin:0;">🧮 Simulador Interactivo de Corrosión y Vida Útil</h2>
         <p style="margin-top: 4px; font-weight: 700;">
             Ajusta los parámetros en tiempo real, prueba escenarios ambientales y compara los modelos cinéticos
         </p>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
-    # Botones de Escenarios Rápidos (Presets de Ingeniería)
     st.markdown("**⚡ Escenarios Rápidos de Prueba (Haz clic para cargar valores típicos):**")
     p1, p2, p3, p4 = st.columns(4)
     if "vc_val" not in st.session_state:
@@ -470,12 +537,17 @@ elif menu == "Calculadora de Corrosión":
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Panel Dividido: Controles a la izquierda, Resultados y Gráfica en vivo a la derecha
     col_controls, col_dash = st.columns([1.1, 1.9])
 
     with col_controls:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### ⚙️ Parámetros de Entrada")
+        st.markdown(
+            """
+        <div class="stCard" style="padding: 18px; margin-bottom: 12px;">
+            <h3 style="margin:0; border:none; padding:0;">⚙️ Parámetros de Entrada</h3>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
         e0 = st.number_input(
             "Espesor inicial del perfil ($e_0$) [mm]:",
@@ -529,19 +601,17 @@ elif menu == "Calculadora de Corrosión":
             )
 
         comparar_modelos = st.checkbox("📊 Superponer ambos modelos en la gráfica", value=True)
-        st.markdown("</div>", unsafe_allow_html=True)
 
     # Cálculos Matemáticos
-    vc_mm = vc_um / 1000.0  # Conversión µm/año a mm/año
+    vc_mm = vc_um / 1000.0
     delta_e_lin = vc_mm * t_exp
-    delta_e_pot = vc_mm * (t_exp ** b_exp)
+    delta_e_pot = vc_mm * (t_exp**b_exp)
 
     delta_e = delta_e_lin if modelo == "Modelo Lineal (Vc constante)" else delta_e_pot
     e_restante = e0 - delta_e
     pct_perdida = (delta_e / e0) * 100.0
     tasa_anual_mm = delta_e / t_exp
 
-    # Cálculo de Vida Útil Remanente (años hasta alcanzar emin)
     margen_espesor = e0 - emin
     if vc_mm > 0:
         if modelo == "Modelo Lineal (Vc constante)":
@@ -552,41 +622,99 @@ elif menu == "Calculadora de Corrosión":
         vida_util_años = 999.0
 
     with col_dash:
-        # Tarjetas superiores de métricas
         m1, m2, m3, m4 = st.columns(4)
-        m1.markdown(f'<div class="metric-card-pink"><div class="metric-title">Tasa Anual</div><div class="metric-value">{tasa_anual_mm:.4f}<span style="font-size:0.8rem"> mm/año</span></div></div>', unsafe_allow_html=True)
-        m2.markdown(f'<div class="metric-card-pink"><div class="metric-title">Pérdida Total</div><div class="metric-value">{delta_e:.3f}<span style="font-size:0.8rem"> mm</span></div></div>', unsafe_allow_html=True)
-        m3.markdown(f'<div class="metric-card-pink"><div class="metric-title">Espesor Final</div><div class="metric-value">{max(0.0, e_restante):.3f}<span style="font-size:0.8rem"> mm</span></div></div>', unsafe_allow_html=True)
-        m4.markdown(f'<div class="metric-card-pink"><div class="metric-title">Vida Útil Est.</div><div class="metric-value">{min(999, int(vida_util_años))}<span style="font-size:0.8rem"> años</span></div></div>', unsafe_allow_html=True)
+        m1.markdown(
+            f'<div class="metric-card-pink"><div class="metric-title">Tasa Anual</div><div class="metric-value">{tasa_anual_mm:.4f}<span style="font-size:0.8rem"> mm/año</span></div></div>',
+            unsafe_allow_html=True,
+        )
+        m2.markdown(
+            f'<div class="metric-card-pink"><div class="metric-title">Pérdida Total</div><div class="metric-value">{delta_e:.3f}<span style="font-size:0.8rem"> mm</span></div></div>',
+            unsafe_allow_html=True,
+        )
+        m3.markdown(
+            f'<div class="metric-card-pink"><div class="metric-title">Espesor Final</div><div class="metric-value">{max(0.0, e_restante):.3f}<span style="font-size:0.8rem"> mm</span></div></div>',
+            unsafe_allow_html=True,
+        )
+        m4.markdown(
+            f'<div class="metric-card-pink"><div class="metric-title">Vida Útil Est.</div><div class="metric-value">{min(999, int(vida_util_años))}<span style="font-size:0.8rem"> años</span></div></div>',
+            unsafe_allow_html=True,
+        )
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Semáforo de Estado Estructural
         if e_restante < emin:
-            st.error(f"🚨 ESTADO CRÍTICO: A los {t_exp} años, el espesor restante ({e_restante:.2f} mm) cae por debajo del límite estructural ({emin:.2f} mm). Falla estimada al año {int(vida_util_años)}.")
+            st.error(
+                f"🚨 ESTADO CRÍTICO: A los {t_exp} años, el espesor restante ({e_restante:.2f} mm) cae por debajo del límite estructural ({emin:.2f} mm). Falla estimada al año {int(vida_util_años)}."
+            )
         elif pct_perdida > 20:
-            st.warning(f"⚠️ ALERTA PREVENTIVA: Se ha perdido el {pct_perdida:.1f}% del espesor inicial. Se recomienda programar mantenimiento de recubrimiento.")
+            st.warning(
+                f"⚠️ ALERTA PREVENTIVA: Se ha perdido el {pct_perdida:.1f}% del espesor inicial. Se recomienda programar mantenimiento de recubrimiento."
+            )
         else:
-            st.success(f"✅ ESTADO SEGURO: El elemento conserva el {100 - pct_perdida:.1f}% de su sección transversal dentro del margen de seguridad.")
+            st.success(
+                f"✅ ESTADO SEGURO: El elemento conserva el {100 - pct_perdida:.1f}% de su sección transversal dentro del margen de seguridad."
+            )
 
-        # Gráfica Interactiva en Vivo
         t_arr = np.linspace(0, t_exp, 150)
         e_arr_lin = np.maximum(0, e0 - (vc_mm * t_arr))
-        e_arr_pot = np.maximum(0, e0 - (vc_mm * (t_arr ** b_exp)))
+        e_arr_pot = np.maximum(0, e0 - (vc_mm * (t_arr**b_exp)))
 
         fig = go.Figure()
 
         if modelo == "Modelo Lineal (Vc constante)":
-            fig.add_trace(go.Scatter(x=t_arr, y=e_arr_lin, mode="lines", name="Modelo Lineal (Principal)", line=dict(color="#C2185B", width=4), fill="tozeroy", fillcolor="rgba(244, 143, 177, 0.2)"))
+            fig.add_trace(
+                go.Scatter(
+                    x=t_arr,
+                    y=e_arr_lin,
+                    mode="lines",
+                    name="Modelo Lineal (Principal)",
+                    line=dict(color="#C2185B", width=4),
+                    fill="tozeroy",
+                    fillcolor="rgba(244, 143, 177, 0.2)",
+                )
+            )
             if comparar_modelos:
-                fig.add_trace(go.Scatter(x=t_arr, y=e_arr_pot, mode="lines", name="Ley de Potencia ISO 9224 (Comparativa)", line=dict(color="#880E4F", width=2, dash="dot")))
+                fig.add_trace(
+                    go.Scatter(
+                        x=t_arr,
+                        y=e_arr_pot,
+                        mode="lines",
+                        name="Ley de Potencia ISO 9224 (Comparativa)",
+                        line=dict(color="#880E4F", width=2, dash="dot"),
+                    )
+                )
         else:
-            fig.add_trace(go.Scatter(x=t_arr, y=e_arr_pot, mode="lines", name="Ley de Potencia ISO 9224 (Principal)", line=dict(color="#C2185B", width=4), fill="tozeroy", fillcolor="rgba(244, 143, 177, 0.2)"))
+            fig.add_trace(
+                go.Scatter(
+                    x=t_arr,
+                    y=e_arr_pot,
+                    mode="lines",
+                    name="Ley de Potencia ISO 9224 (Principal)",
+                    line=dict(color="#C2185B", width=4),
+                    fill="tozeroy",
+                    fillcolor="rgba(244, 143, 177, 0.2)",
+                )
+            )
             if comparar_modelos:
-                fig.add_trace(go.Scatter(x=t_arr, y=e_arr_lin, mode="lines", name="Modelo Lineal (Comparativa)", line=dict(color="#880E4F", width=2, dash="dot")))
+                fig.add_trace(
+                    go.Scatter(
+                        x=t_arr,
+                        y=e_arr_lin,
+                        mode="lines",
+                        name="Modelo Lineal (Comparativa)",
+                        line=dict(color="#880E4F", width=2, dash="dot"),
+                    )
+                )
 
-        # Línea límite estructural
-        fig.add_trace(go.Scatter(x=[0, t_exp], y=[emin, emin], mode="lines", name=f"Límite Mínimo ({emin} mm)", line=dict(color="#D50000", width=3, dash="dash")))
+        fig.add_trace(
+            go.Scatter(
+                x=[0, t_exp],
+                y=[emin, emin],
+                mode="lines",
+                name=f"Límite Mínimo ({emin} mm)",
+                line=dict(color="#D50000", width=3, dash="dash"),
+            )
+        )
 
         fig.update_layout(
             title="<b>Simulación Temporal de Reducción de Espesor</b>",
@@ -602,20 +730,87 @@ elif menu == "Calculadora de Corrosión":
         st.plotly_chart(fig, use_container_width=True)
 
 # ---------------------------------------------------------
-# SECCIÓN 7: MÉTODOS DE PROTECCIÓN
+# SECCIÓN 7: MÉTODOS DE PROTECCIÓN (AMPLIADA Y DETALLADA)
 # ---------------------------------------------------------
 elif menu == "Métodos de Protección":
-    st.title("🛡️ Métodos de Protección Anticorrosiva")
-    st.markdown("""
-    <div class="stCard">
-        <ul>
-            <li><b>Pinturas y Recubrimientos:</b> Sistemas multicapa que forman barreras físicas contra la humedad y el oxígeno.</li>
-            <li><b>Galvanizado en Caliente:</b> Inmersión en zinc fundido que actúa como ánodo galvánico de sacrificio.</li>
-            <li><b>Protección Catódica:</b> Imposición de corriente continua para mantener el acero estructural como cátodo.</li>
-            <li><b>Acieros Patinables (Corten):</b> Aleaciones especiales con Cu, Cr y Ni que forman una pátina densa autoprotectora.</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("🛡️ Estrategias y Métodos de Protección Anticorrosiva")
+    st.write(
+        "En la ingeniería civil, la selección del sistema de protección contra la corrosión depende de la categoría de agresividad "
+        "ambiental (ISO 12944 / NTC), la vida útil de diseño de la estructura y la accesibilidad para labores de mantenimiento."
+    )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>🎨 1. Sistemas de Recubrimientos y Pinturas Anticorrosivas</h3>
+            <p>Constituyen el método más utilizado en estructuras metálicas expuestas. Operan bajo un esquema multicapa (ISO 12944):</p>
+            <ul>
+                <li><b>Capa Primaria (Primer):</b> Formulada con pigmentos inhibidores (fosfato de zinc) o <b>rica en zinc</b> para proveer adherencia y protección galvánica inicial.</li>
+                <li><b>Capa Intermedia (Barrera):</b> Generalmente de resina <b>epóxica de altos sólidos</b>; aporta el espesor de película seca (EPS) necesario para bloquear la difusión de humedad y cloruros.</li>
+                <li><b>Capa de Acabado (Topcoat):</b> Esmalte de <b>poliuretano alifático</b> o polisiloxano resistente a la radiación ultravioleta (UV), evitando el caleo y degradación solar.</li>
+                <li><b>Preparación de Superficie:</b> Exige limpieza con chorro abrasivo (sandblasting grado Sa 2½ según ISO 8501) para garantizar el perfil de anclaje.</li>
+            </ul>
+        </div>
+
+        <div class="stCard">
+            <h3>⚡ 3. Protección Catódica (Ánodos de Sacrificio y Corriente Impresa)</h3>
+            <p>Se emplea principalmente en estructuras enterradas (tuberías, cimentaciones) o sumergidas en agua de mar (muelles y pilotes):</p>
+            <ul>
+                <li><b>Principio Electroquímico:</b> Consiste en suministrar electrones externos al acero para polarizarlo negativamente y convertir toda la estructura en el <b>cátodo</b> de la celda, deteniendo por completo la disolución anódica del hierro.</li>
+                <li><b>Ánodos Galvánicos (de Sacrificio):</b> Se conectan bloques de metales más electronegativos como <b>Zinc (Zn), Aluminio (Al) o Magnesio (Mg)</b>, los cuales se corroen preferentemente protegiendo al acero.</li>
+                <li><b>Corriente Impresa (ICCP):</b> Utiliza rectificadores de corriente continua y ánodos inertes (titanio recubierto) para proteger infraestructuras de gran escala como puentes marinos y plataformas offshore.</li>
+            </ul>
+        </div>
+
+        <div class="stCard">
+            <h3>📐 5. Diseño Estructural Preventivo (Detalles Constructivos)</h3>
+            <p>La geometría de los elementos influye directamente en la acumulación de humedad:</p>
+            <ul>
+                <li><b>Evitar Trampas de Agua:</b> Incorporar barrenos de drenaje en perfiles canal, vigas cajón y placas base.</li>
+                <li><b>Continuidad de Soldaduras:</b> Preferir cordones de soldadura continuos sobre soldaduras intermitentes para evitar corrosión en rendijas (<i>crevice corrosion</i>).</li>
+                <li><b>Aislamiento Galvánico:</b> Colocar empaques o arandelas dieléctricas de neopreno o teflón al unir acero al carbono con acero inoxidable o cobre.</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+    with col2:
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>🔩 2. Galvanizado por Inmersión en Caliente (HDG)</h3>
+            <p>Regido por normas como <b>ASTM A123 / NMX-H-004</b>, consiste en sumergir las piezas de acero limpias en un baño de zinc fundido a ~450 °C:</p>
+            <ul>
+                <li><b>Unión Metalúrgica:</b> Se forman capas de aleación zinc-hierro extremadamente duras y resistentes a la abrasión mecánica durante el transporte y montaje.</li>
+                <li><b>Triple Protección:</b> Actúa como barrera física impermeable, provee <b>protección catódica de sacrificio</b> si el recubrimiento se raya, y desarrolla una pátina estable de carbonato básico de zinc.</li>
+                <li><b>Durabilidad:</b> En ambientes urbanos o rurales puede superar los <b>40 a 60 años</b> sin requerir mantenimiento.</li>
+            </ul>
+        </div>
+
+        <div class="stCard">
+            <h3>🏗️ 4. Aceros Patinables Resistentes a la Corrosión (Acero Corten)</h3>
+            <p>Aleaciones estructurales de alta resistencia y baja aleación (especificación <b>ASTM A588 / A242</b>):</p>
+            <ul>
+                <li><b>Composición Especial:</b> Contienen pequeñas proporciones de <b>Cobre (0.25-0.55%), Cromo, Níquel y Fósforo</b>.</li>
+                <li><b>Mecanismo de Autoprotección:</b> Al exponerse a ciclos alternados de humedecimiento y secado al aire libre, desarrollan una capa de óxido adherente, densa e impermeable (pátina) que sella los poros y reduce drásticamente la velocidad de corrosión posterior.</li>
+                <li><b>Limitación Crítica:</b> No deben emplearse en ambientes marinos con alta concentración de cloruros ni en zonas permanentemente sumergidas, ya que la pátina protectora no logra estabilizarse.</li>
+            </ul>
+        </div>
+
+        <div class="stCard">
+            <h3>🔍 6. Inspección Periódica y Mantenimiento Programado</h3>
+            <p>La gestión de integridad estructural requiere monitoreo continuo:</p>
+            <ul>
+                <li><b>Medición de Espesores por Ultrasonido (UT):</b> Permite verificar el espesor remanente real sin dañar la estructura y calibrar modelos predictivos como <b>STEELIA</b>.</li>
+                <li><b>Pruebas de Adherencia y Espesor de Película Seca (EPS):</b> Control de calidad en obra mediante medidores magnéticos o de corrientes de Eddy (SSPC-PA 2).</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
 # ---------------------------------------------------------
 # SECCIÓN 8: APLICACIONES EN INGENIERÍA CIVIL
@@ -630,48 +825,58 @@ elif menu == "Aplicaciones en Ingeniería":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🌉 1. Puentes Metálicos y Mixtos")
-        st.write("""
-        Los puentes vehiculares y peatonales están expuestos de forma continua a vibraciones, ciclos de carga (fatiga) y agentes atmosféricos.
-        * **Fatiga por Corrosión (*Corrosion Fatigue*):** La presencia de picaduras (*pitting*) genera **concentradores de esfuerzos** que aceleran la propagación de grietas.
-        * **Zonas Críticas:** Uniones soldadas, nodos atornillados, placas de apoyo y cara inferior del tablero.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🌊 3. Infraestructura Marítima y Costera")
-        st.write("""
-        Las obras ubicadas en frentes costeros enfrentan las condiciones más severas (Categorías C5/CX):
-        * **Zona de Salpicaduras y Mareas (*Splash Zone*):** Combina suministro continuo de oxígeno con humedecimiento por oleaje y altas concentraciones de cloruros ($Cl^-$).
-        * **Pilotaje Metálico:** Exige recubrimientos epóxicos espesos y **protección catódica**.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>🌉 1. Puentes Metálicos y Mixtos</h3>
+            <p>Los puentes vehiculares y peatonales están expuestos de forma continua a vibraciones, ciclos de carga (fatiga) y agentes atmosféricos.</p>
+            <ul>
+                <li><b>Fatiga por Corrosión (<i>Corrosion Fatigue</i>):</b> La presencia de picaduras (<i>pitting</i>) genera <b>concentradores de esfuerzos</b> que aceleran la propagación de grietas.</li>
+                <li><b>Zonas Críticas:</b> Uniones soldadas, nodos atornillados, placas de apoyo y cara inferior del tablero.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>🌊 3. Infraestructura Marítima y Costera</h3>
+            <p>Las obras ubicadas en frentes costeros enfrentan las condiciones más severas (Categorías C5/CX):</p>
+            <ul>
+                <li><b>Zona de Salpicaduras y Mareas (<i>Splash Zone</i>):</b> Combina suministro continuo de oxígeno con humedecimiento por oleaje y altas concentraciones de cloruros (Cl⁻).</li>
+                <li><b>Pilotaje Metálico:</b> Exige recubrimientos epóxicos espesos y <b>protección catódica</b>.</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
     with col2:
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 🏢 2. Edificios y Naves Industriales")
-        st.write("""
-        * **Columnas y Trabes Expuestas:** La reducción del espesor reduce directamente el momento de inercia ($I$) y el área de la sección ($A$).
-        * **Riesgo de Pandeo:** Al disminuir el espesor ($t$), aumenta la esbeltez ($b/t$), haciendo a la columna susceptible de fallar por pandeo elástico.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown('<div class="stCard">', unsafe_allow_html=True)
-        st.markdown("### 📐 4. Criterios de Sobreespesor (*Corrosion Allowance*)")
-        st.write("""
-        * El estructuralista define un **espesor sacrificable de corrosión ($e_{sacrif}$)** adicional al espesor requerido por cálculo mecánico.
-        * Herramientas como **STEELIA** permiten predecir cuándo se consumirá ese sobreespesor.
-        """)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+        <div class="stCard">
+            <h3>🏢 2. Edificios y Naves Industriales</h3>
+            <ul>
+                <li><b>Columnas y Trabes Expuestas:</b> La reducción del espesor reduce directamente el momento de inercia (I) y el área de la sección (A).</li>
+                <li><b>Riesgo de Pandeo:</b> Al disminuir el espesor (t), aumenta la esbeltez (b/t), haciendo a la columna susceptible de fallar por pandeo elástico.</li>
+            </ul>
+        </div>
+        <div class="stCard">
+            <h3>📐 4. Criterios de Sobreespesor (<i>Corrosion Allowance</i>)</h3>
+            <ul>
+                <li>El estructuralista define un <b>espesor sacrificable de corrosión (e<sub>sacrif</sub>)</b> adicional al espesor requerido por cálculo mecánico.</li>
+                <li>Herramientas como <b>STEELIA</b> permiten predecir cuándo se consumirá ese sobreespesor.</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
 
 # ---------------------------------------------------------
 # SECCIÓN 9: ¿CÓMO UTILIZAR STEELIA?
 # ---------------------------------------------------------
 elif menu == "¿Cómo utilizar STEELIA?":
     st.title("📖 Guía de Uso")
-    st.markdown("""
+    st.markdown(
+        """
     <div class="stCard">
+        <h3>Paso a Paso para Simular en STEELIA</h3>
         <ol>
             <li>Dirígete a la <b>Calculadora de Corrosión</b> en el menú lateral.</li>
             <li>Opcionalmente, haz clic en uno de los botones de <b>Escenarios Rápidos</b> (ej. Costa / Campeche) para cargar tasas ambientales reales.</li>
@@ -680,19 +885,26 @@ elif menu == "¿Cómo utilizar STEELIA?":
             <li>Analiza las 4 tarjetas de resultados, el semáforo de seguridad y la curva comparativa en tiempo real.</li>
         </ol>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
 
 # ---------------------------------------------------------
 # SECCIÓN 10: REFERENCIAS APA 7
 # ---------------------------------------------------------
 elif menu == "Referencias APA 7":
     st.title("📚 Referencias Bibliográficas")
-    st.markdown("""
+    st.markdown(
+        """
     <div class="stCard">
+        <h3>Fuentes Normativas y Científicas</h3>
         <ul>
             <li><b>Gobierno de la Ciudad de México.</b> (2023). <i>Normas Técnicas Complementarias para Diseño y Construcción de Estructuras de Concreto (NTC-Concreto, Capítulo 4: Durabilidad)</i>. Gaceta Oficial de la Ciudad de México.</li>
             <li><b>International Organization for Standardization.</b> (2012). <i>Corrosion of metals and alloys — Corrosivity of atmospheres — Classification, determination and estimation</i> (ISO Standard No. 9223:2012 / 9224:2012).</li>
+            <li><b>International Organization for Standardization.</b> (2017). <i>Paints and varnishes — Corrosion protection of steel structures by protective paint systems</i> (ISO Standard No. 12944).</li>
             <li><b>Revie, R. W., & Uhlig, H. H.</b> (2008). <i>Corrosion and corrosion control: An introduction to corrosion science and engineering</i> (4th ed.). John Wiley & Sons.</li>
         </ul>
     </div>
-    """, unsafe_allow_html=True)
+    """,
+        unsafe_allow_html=True,
+    )
