@@ -19,13 +19,13 @@ custom_css = """
     /* Fondo general rosado suave */
     .stApp {
         background-color: #FFF0F4 !important;
-        color: #2D0814 !important;
+        color: #260511 !important;
         font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
     }
 
     /* FORZAR TEXTO VINO MUY OSCURO EN TODOS LOS TEXTOS GLOBALES, LABELS E INPUTS */
     p, span, label, div, li, input, select, textarea, .stMarkdown {
-        color: #2D0814 !important;
+        color: #260511 !important;
         font-weight: 500;
     }
 
@@ -57,25 +57,28 @@ custom_css = """
         box-shadow: 0 10px 25px rgba(216, 27, 96, 0.12) !important;
         border: 2px solid #F4A5C2 !important;
         margin-bottom: 24px !important;
-        color: #2D0814 !important;
+        color: #260511 !important;
     }
 
     .stCard p, .stCard li, .stCard div {
-        color: #2D0814 !important;
+        color: #260511 !important;
     }
 
-    /* CAJAS DE INFORMACIÓN Y ALERTAS NATIVAS DE STREAMLIT */
-    div[data-testid="stAlert"] {
-        background-color: #FFF5F8 !important;
-        border: 2px solid #F06292 !important;
+    /* CORRECCIÓN DEFINITIVA PARA ALERTAS NATIVAS (st.info, st.error, st.warning, st.success) */
+    div[data-testid="stAlert"],
+    div[data-testid="stAlert"] > div {
+        background-color: #FFE4EE !important;
+        border: 2px solid #E91E63 !important;
         border-radius: 16px !important;
+        color: #260511 !important;
     }
-    div[data-testid="stAlert"] p {
-        color: #380B1D !important;
+
+    div[data-testid="stAlert"] * {
+        color: #260511 !important;
         font-weight: 700 !important;
     }
 
-    /* TARJETAS DE RESULTADO DE CALCULADORA (TEXTO VINO OSCURO / VALORES INTENSOS) */
+    /* TARJETAS DE RESULTADO DE CALCULADORA */
     .metric-card-pink {
         background: linear-gradient(135deg, #FFFFFF 0%, #FFF0F5 100%) !important;
         border: 2px solid #E91E63 !important;
@@ -140,7 +143,7 @@ custom_css = """
         font-weight: 700 !important;
     }
 
-    /* TABLAS Y DATAFRAMES CON MÁXIMA LEGIBILIDAD (ENCABEZADO OSCURO, FONT OSCURA) */
+    /* TABLAS Y DATAFRAMES CON MÁXIMA LEGIBILIDAD */
     div[data-testid="stTable"] table {
         color: #260511 !important;
         background-color: #FFFFFF !important;
@@ -161,18 +164,6 @@ custom_css = """
         font-weight: 600 !important;
         font-size: 1rem !important;
         background-color: #FFFFFF !important;
-    }
-
-    /* BOTONES PRINCIPALES */
-    .stButton > button {
-        background: linear-gradient(135deg, #E91E63 0%, #AD1457 100%) !important;
-        color: #FFFFFF !important;
-        border-radius: 18px !important;
-        border: none !important;
-        padding: 14px 32px !important;
-        font-weight: 800 !important;
-        font-size: 1.05rem !important;
-        box-shadow: 0 6px 20px rgba(233, 30, 99, 0.35) !important;
     }
 </style>
 """
@@ -267,7 +258,7 @@ if menu == "Portada":
         st.markdown('<div class="stCard" style="text-align: center;">', unsafe_allow_html=True)
         st.markdown("### 🧮 Calculadora de Corrosión")
         st.write("Accede a la herramienta interactiva de estimación cuantitativa:")
-        st.info("💡 Usa el menú desplegable ubicado en la barra lateral izquierda para ingresar a la **Calculadora de Corrosión**.")
+        st.info("💡 Usa el menú desplegable ubicado en la barra lateral izquierda para ingresar a la Calculadora de Corrosión.")
         st.markdown("</div>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
@@ -342,7 +333,7 @@ elif menu == "Normativa Mexicana (NTC)":
     st.table(df_ntc)
 
 # ---------------------------------------------------------
-# SECCIÓN 5: CONTEXTO DE MÉXICO (EXTENDIDO Y ESPECTACULAR)
+# SECCIÓN 5: CONTEXTO DE MÉXICO
 # ---------------------------------------------------------
 elif menu == "Contexto de México":
     st.title("🌴 Panorama de la Corrosión Atmosférica en México")
@@ -422,7 +413,7 @@ elif menu == "Calculadora de Corrosión":
         if modelo == "Modelo Ley de Potencia (ISO 9224)":
             b_exp = col_m2.slider("Exponente empírico ($b$):", min_value=0.10, max_value=1.00, value=0.52, step=0.01)
         else:
-            col_m2.info("💡 El modelo lineal asume una velocidad de corrosión constante en el tiempo ($\Delta e = V_c \cdot t$).")
+            col_m2.info("💡 El modelo lineal asume una velocidad de corrosión constante en el tiempo (Δe = Vc · t).")
 
     with tab_tasa:
         col_v1, col_v2 = st.columns(2)
@@ -444,7 +435,6 @@ elif menu == "Calculadora de Corrosión":
     st.markdown("---")
     st.markdown("### 📊 Panel de Resultados Estructurales")
 
-    # MÉTRICAS ESTILIZADAS EN ROSA DE ALTO IMPACTO Y TEXTO OSCURO NÍTIDO
     r1, r2, r3, r4 = st.columns(4)
     r1.markdown(f'<div class="metric-card-pink"><div class="metric-title">Tasa Anual</div><div class="metric-value">{tasa_anual_mm:.4f}<span style="font-size:0.9rem"> mm/año</span></div></div>', unsafe_allow_html=True)
     r2.markdown(f'<div class="metric-card-pink"><div class="metric-title">Pérdida Acumulada</div><div class="metric-value">{delta_e:.3f}<span style="font-size:0.9rem"> mm</span></div></div>', unsafe_allow_html=True)
@@ -452,21 +442,37 @@ elif menu == "Calculadora de Corrosión":
     r4.markdown(f'<div class="metric-card-pink"><div class="metric-title">Pérdida Material</div><div class="metric-value">{pct_perdida:.1f}<span style="font-size:0.9rem"> %</span></div></div>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    # ALERTAS DE SEGURIDAD
+    # ALERTAS DE SEGURIDAD CON CONTRASTE GARANTIZADO
     if e_restante < emin:
-        st.error(f"🚨 **ESTADO CRÍTICO:** El espesor restante ({e_restante:.2f} mm) es inferior al límite de seguridad permitido ({emin:.2f} mm).")
+        st.error(f"🚨 ESTADO CRÍTICO: El espesor restante ({e_restante:.2f} mm) es inferior al límite de seguridad permitido ({emin:.2f} mm).")
     elif pct_perdida > 25:
-        st.warning(f"⚠️ **ALERTA ESTRUCTURAL:** Se ha perdido más del 25% del espesor inicial del acero.")
+        st.warning("⚠️ ALERTA ESTRUCTURAL: Se ha perdido más del 25% del espesor inicial del acero.")
     else:
-        st.success(f"✅ **ESTADO ACEPTABLE:** El elemento mantiene su margen de seguridad estructural aceptable.")
+        st.success("✅ ESTADO ACEPTABLE: El elemento mantiene su margen de seguridad estructural aceptable.")
 
-    # GRÁFICA INTERACTIVA PLOTLY
+    # GRÁFICA INTERACTIVA PLOTLY COMPLETA
     t_arr = np.linspace(0, t_exp, 100)
-    e_arr = e0 - (vc_mm * t_arr) if modelo == "Modelo Lineal (Vc constante)" else e0 - (vc_mm * (t_arr**b_exp))
+    e_arr = e0 - (vc_mm * t_arr) if modelo == "Modelo Lineal (Vc constante)" else e0 - (vc_mm * (t_arr ** b_exp))
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=t_arr, y=e_arr, mode="lines", name="Espesor Restante (mm)", line=dict(color="#C2185B", width=4)))
-    fig.add_trace(go.Scatter(x=[0, t_exp], y=[emin, emin], mode="lines", name="Espesor Mínimo (emin)", line=dict(color="#D81B60", width=2, dash="dash")))
+    fig.add_trace(
+        go.Scatter(
+            x=t_arr,
+            y=e_arr,
+            mode="lines",
+            name="Espesor Restante (mm)",
+            line=dict(color="#C2185B", width=4),
+        )
+    )
+    fig.add_trace(
+        go.Scatter(
+            x=[0, t_exp],
+            y=[emin, emin],
+            mode="lines",
+            name="Espesor Mínimo (emin)",
+            line=dict(color="#D81B60", width=2, dash="dash"),
+        )
+    )
 
     fig.update_layout(
         title="<b>Curva Temporal de Pérdida de Espesor del Acero</b>",
@@ -579,6 +585,3 @@ elif menu == "Referencias APA 7":
     - **International Organization for Standardization.** (2012). *Corrosion of metals and alloys — Corrosivity of atmospheres — Classification, determination and estimation* (ISO Standard No. 9223:2012 / 9224:2012).
     - **Revie, R. W., & Uhlig, H. H.** (2008). *Corrosion and corrosion control: An introduction to corrosion science and engineering* (4th ed.). John Wiley & Sons.
     """)
-
-    fig = go.Figure()
-    fig.add_
